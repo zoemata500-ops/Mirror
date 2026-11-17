@@ -2,12 +2,34 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Espejo inteligente</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <main class="reloj">
 
+    <section class="tarjeta" id="horas" data-valor="" aria-label="Horas">
+      <div class="mitad arriba fija-arriba"><span></span></div>
+      <div class="mitad abajo fija-abajo"><span></span></div>
+      <div class="mitad arriba hoja-arriba"><span></span></div>
+      <div class="mitad abajo hoja-abajo"><span></span></div>
+      <p class="detalle det-sup" id="fecha"></p>
+      <p class="detalle det-inf-izq" id="meridiano"></p>
+    </section>
+
+    <section class="tarjeta" id="minutos" data-valor="" aria-label="Minutos">
+      <div class="mitad arriba fija-arriba"><span></span></div>
+      <div class="mitad abajo fija-abajo"><span></span></div>
+      <div class="mitad arriba hoja-arriba"><span></span></div>
+      <div class="mitad abajo hoja-abajo"><span></span></div>
+      <p class="detalle det-sup" id="dia"></p>
+      <p class="detalle det-inf-der" id="segundos"></p>
+    </section>
+
+  </main>
+
+  <script src="time.js"></script>
 </body>
-<script src="time.js"></script>
 </html>
