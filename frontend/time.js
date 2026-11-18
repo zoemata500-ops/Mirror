@@ -53,26 +53,3 @@ function actualizarReloj() {
  
 actualizarReloj();
 setInterval(actualizarReloj, 1000);
-
-
-
-// const temporizadorMinutos = document.querySelector('#temporizador-minutos');
-// const temporizadorSegundos = document.querySelector('#temporizador-segundos');  
-// const duracionMinutos = 0; // Duración del temporizador en minutos  
-// const duracionSegundos = 10; // Convertir a segundos
-
-// const duracionTotal = duracionMinutos * 60 + duracionSegundos; // Duración total en segundos
-// const tiempoFinal = Math.ceil (Date.now() + (duracionTotal * 1000); // Tiempo final en milisegundos
-// const intervalo = setInterval(() => {
-//   const tiempoRestante =  tiempoFinal - Date.now(); // Tiempo restante en milisegundos
-//   const minutosRestantes = Math.floor(tiempoRestante / 1000 / 60);
-//   const segundosRestantes = Math.floor((tiempoRestante / 1000) % 60);
-
-//   actualizarTarjeta(temporizadorMinutos, String(minutosRestantes).padStart(2, '0'));
-//   actualizarTarjeta(temporizadorSegundos, String(segundosRestantes).padStart(2, '0')); 
-//   if (tiempoRestante <= 0) {
-//     clearInterval(intervalo);
-//    actualizarTarjeta(temporizadorMinutos, '00');
-//    actualizarTarjeta(temporizadorSegundos, '00')  ;
-//   } 
-// }, 1000);

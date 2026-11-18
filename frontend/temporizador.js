@@ -29,9 +29,11 @@ function tic() {
     intervalo = null;
     restante = 0;
     mostrar(0);
-    hablar('El temporizador terminó');
     botonIniciar.textContent = 'Iniciar';
-   
+
+    // Primero se arregla la pantalla, y al final se avisa a quien quiera enterarse.
+    // Este archivo ya no depende de voz.js: si voz.js no existe, simplemente nadie escucha el aviso.
+    document.dispatchEvent(new CustomEvent('temporizador-terminado'));
     return;
   }
 
@@ -69,10 +71,12 @@ function cerrarTemporizador() {
   document.body.classList.remove('temporizador-abierto');
 }
 
-// Recibe segundos, los deja como nueva duración y reinicia la pantalla
+// Recibe segundos, los deja como nueva duración y reinicia la pantalla.
+// Devuelve la duración que quedó aplicada (puede ser menor si pasaba del máximo).
 function ajustarDuracion(totalSegundos) {
-  duracion = Math.min(DURACION_MAXIMA, Math.max(0, totalSegundos)); // limita entre 0 y el máximo
+  duracion = Math.min(DURACION_MAXIMA, Math.max(0, totalSegundos));
   reiniciar();   // reiniciar ya detiene el intervalo, recalcula "restante" y llama a mostrar
+  return duracion;
 }
 
 botonAbrir.addEventListener('click', () => {
@@ -101,9 +105,7 @@ controles.addEventListener('click', (evento) => {
   const segundosPorUnidad = boton.dataset.ajuste === 'minutos' ? 60 : 1;
   const paso = Number(boton.dataset.paso);
 
-  duracion = Math.min(DURACION_MAXIMA, Math.max(0, duracion + segundosPorUnidad * paso));
-  restante = duracion * 1000;
-  mostrar(restante);
+  ajustarDuracion(duracion + segundosPorUnidad * paso);
 });
 
 mostrar(restante);

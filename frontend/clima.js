@@ -1,6 +1,7 @@
-const LATITUD =  19.20159 ;
-const LONGITUD = -99.56187;
-const CIUDAD = 'Ciudad de México';
+// Dos decimales (~1 km): el clima sale igual y no publicas tu ubicación exacta en GitHub
+const LATITUD = 19.20;
+const LONGITUD = -99.56;
+const CIUDAD = 'Ciudad de México';   // CAMBIA esto por tu municipio: el espejo lo dice en voz alta
 const INTERVALO = 15 * 60 * 1000; // 15 minutos, en milisegundos
 
 const panelClima = document.querySelector('#clima');

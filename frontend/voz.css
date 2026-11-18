@@ -9,3 +9,21 @@
   font-size: 2.2vmin;
   color: #b0b0b0;
 }
+
+/* Modo descanso: una cortina negra encima de todo. Lo de abajo sigue funcionando */
+.cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  display: none;
+}
+
+body.dormido .cortina {
+  display: block;
+}
+
+body.dormido,
+body.dormido * {
+  cursor: none;
+}

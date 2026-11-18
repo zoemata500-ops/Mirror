@@ -49,6 +49,39 @@ function dibujar() {
   campo.disabled = llena;
   campo.placeholder = llena ? 'Lista llena' : 'Nueva tarea';
 }
+
+// ----- Funciones que usan tanto los botones como la voz -----
+
+// Devuelve { estado: 'ok' | 'vacia' | 'llena', tarea }
+function agregarTarea(textoCrudo) {
+  const texto = textoCrudo.trim().slice(0, campo.maxLength);   // respeta el límite del campo
+  if (texto === '') return { estado: 'vacia' };
+  if (tareas.length >= MAX_TAREAS) return { estado: 'llena' };
+
+  const tarea = { id: Date.now(), texto, hecha: false };
+  tareas.push(tarea);
+  guardar();
+  dibujar();
+  return { estado: 'ok', tarea };
+}
+
+function marcarTarea(id, hecha) {
+  tareas = tareas.map((tarea) => (tarea.id === id ? { ...tarea, hecha } : tarea));
+  guardar();
+  dibujar();
+}
+
+function eliminarTarea(id) {
+  tareas = tareas.filter((tarea) => tarea.id !== id);
+  guardar();
+  dibujar();
+}
+
+// Una copia: así quien la pida no puede modificar tu arreglo sin querer
+function obtenerTareas() {
+  return [...tareas];
+}
+
 function abrirTareas() {
   document.body.classList.add('tareas-abierto');       // add: siempre abre, nunca alterna
 }
@@ -66,17 +99,11 @@ botonTareas.addEventListener('click', () => {
   }
 });
 
-
 formulario.addEventListener('submit', (evento) => {
   evento.preventDefault();
 
-  const texto = campo.value.trim();
-  if (texto === '' || tareas.length >= MAX_TAREAS) return;
-
-  tareas.push({ id: Date.now(), texto, hecha: false });
-  campo.value = '';
-  guardar();
-  dibujar();
+  const resultado = agregarTarea(campo.value);
+  if (resultado.estado === 'ok') campo.value = '';
 });
 
 lista.addEventListener('click', (evento) => {
@@ -86,15 +113,11 @@ lista.addEventListener('click', (evento) => {
   const id = Number(boton.closest('li').dataset.id);
 
   if (boton.dataset.accion === 'alternar') {
-    tareas = tareas.map((tarea) => {
-      return tarea.id === id ? { ...tarea, hecha: !tarea.hecha } : tarea;
-    });
+    const tarea = tareas.find((t) => t.id === id);
+    marcarTarea(id, !tarea.hecha);
   } else {
-    tareas = tareas.filter((tarea) => tarea.id !== id);
+    eliminarTarea(id);
   }
-
-  guardar();
-  dibujar();
 });
 
 dibujar();

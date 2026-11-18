@@ -80,6 +80,7 @@ body.tareas-abierto.temporizador-abierto {
 }
 
 .tareas-lista {
+  counter-reset: tarea;          /* el contador empieza de cero en cada lista */
   list-style: none;
   margin: 0;
   padding: 0;
@@ -93,6 +94,15 @@ body.tareas-abierto.temporizador-abierto {
   align-items: center;
   gap: 1vmin;
   font-size: 3.2vmin;
+  counter-increment: tarea;      /* cada tarea suma 1 al contador */
+}
+
+/* Número de la tarea, discreto: sirve para decir "borra la tarea 2" */
+.tarea::before {
+  content: counter(tarea);
+  min-width: 1.4em;
+  font-size: 0.6em;
+  color: #5a5a5a;
 }
 
 .tarea-texto {
