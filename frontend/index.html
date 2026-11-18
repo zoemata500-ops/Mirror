@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Espejo inteligente</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="temporizador.css">
+  <link rel="stylesheet" href="tareas.css">
+  <link rel="stylesheet" href="clima.css">
+</head>
+<body>
+
+  <main class="reloj">
+
+    <section class="tarjeta" id="horas" data-valor="" aria-label="Horas">
+      <div class="mitad arriba fija-arriba"><span></span></div>
+      <div class="mitad abajo fija-abajo"><span></span></div>
+      <div class="mitad arriba hoja-arriba"><span></span></div>
+      <div class="mitad abajo hoja-abajo"><span></span></div>
+      <p class="detalle det-sup" id="fecha"></p>
+      <p class="detalle det-inf-izq" id="meridiano"></p>
+    </section>
+
+    <section class="tarjeta" id="minutos" data-valor="" aria-label="Minutos">
+      <div class="mitad arriba fija-arriba"><span></span></div>
+      <div class="mitad abajo fija-abajo"><span></span></div>
+      <div class="mitad arriba hoja-arriba"><span></span></div>
+      <div class="mitad abajo hoja-abajo"><span></span></div>
+      <p class="detalle det-sup" id="dia"></p>
+      <p class="detalle det-inf-der" id="segundos"></p>
+    </section>
+
+  </main>
+
+  <!-- ===== CLIMA ===== -->
+  <aside class="clima" id="clima" aria-label="Clima">
+    <p class="clima-temp" id="clima-temp">--°</p>
+    <div class="clima-detalle">
+      <p class="clima-ciudad" id="clima-ciudad"></p>
+      <p class="clima-estado" id="clima-estado">Cargando…</p>
+      <p class="clima-rango" id="clima-rango"></p>
+    </div>
+  </aside>
+
+  <!-- ===== TEMPORIZADOR ===== -->
+  <button class="boton-flotante" id="boton-temporizador" type="button">Temporizador</button>
+
+  <section class="temporizador" id="temporizador" aria-label="Temporizador">
+
+    <div class="temporizador-tarjetas">
+      <section class="tarjeta" id="temporizador-minutos" data-valor="" aria-label="Minutos del temporizador">
+        <div class="mitad arriba fija-arriba"><span></span></div>
+        <div class="mitad abajo fija-abajo"><span></span></div>
+        <div class="mitad arriba hoja-arriba"><span></span></div>
+        <div class="mitad abajo hoja-abajo"><span></span></div>
+      </section>
+
+      <section class="tarjeta" id="temporizador-segundos" data-valor="" aria-label="Segundos del temporizador">
+        <div class="mitad arriba fija-arriba"><span></span></div>
+        <div class="mitad abajo fija-abajo"><span></span></div>
+        <div class="mitad arriba hoja-arriba"><span></span></div>
+        <div class="mitad abajo hoja-abajo"><span></span></div>
+      </section>
+    </div>
+
+    <div class="temporizador-controles">
+      <div class="ajuste">
+        <button type="button" data-ajuste="minutos" data-paso="-1" aria-label="Menos un minuto">&minus;</button>
+        <span>min</span>
+        <button type="button" data-ajuste="minutos" data-paso="1" aria-label="Más un minuto">+</button>
+      </div>
+
+      <div class="ajuste">
+        <button type="button" data-ajuste="segundos" data-paso="-5" aria-label="Menos cinco segundos">&minus;</button>
+        <span>seg</span>
+        <button type="button" data-ajuste="segundos" data-paso="5" aria-label="Más cinco segundos">+</button>
+      </div>
+
+      <button type="button" id="iniciar-temporizador">Iniciar</button>
+      <button type="button" id="reiniciar-temporizador">Reiniciar</button>
+    </div>
+
+  </section>
+
+  <!-- ===== TAREAS ===== -->
+  <button class="boton-flotante boton-izq" id="boton-tareas" type="button">Tareas</button>
+
+  <aside class="tareas" id="tareas" aria-label="Tareas del día">
+    <h2 class="tareas-titulo">Hoy</h2>
+
+    <form class="tareas-form" id="form-tareas">
+      <input id="nueva-tarea" type="text" maxlength="40" placeholder="Nueva tarea" autocomplete="off">
+      <button type="submit">Agregar</button>
+    </form>
+
+    <ul class="tareas-lista" id="lista-tareas"></ul>
+  </aside>
+
+  <script src="time.js"></script>
+  <script src="temporizador.js"></script>
+  <script src="tareas.js"></script>
+  <script src="clima.js"></script>
+</body>
+</html>

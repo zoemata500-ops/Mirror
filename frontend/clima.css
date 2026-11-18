@@ -1,0 +1,46 @@
+/* Clima: siempre visible, en la esquina superior izquierda */
+.clima {
+  position: fixed;
+  top: 2.5vh;
+  left: 2.5vw;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1.2vw;
+  font-family: "DIN Alternate", "Bahnschrift", "Arial Narrow", sans-serif;
+  color: #b0b0b0;
+  transition: opacity 0.4s;
+}
+
+.clima p {
+  margin: 0;
+}
+
+.clima-temp {
+  font-size: 5.5vh;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.clima-detalle {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.9vh;
+  line-height: 1.3;
+}
+
+.clima-ciudad {
+  font-size: 1.5vh;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #6a6a6a;
+}
+
+.clima-rango {
+  color: #6a6a6a;
+}
+
+/* Si falla la conexión se queda el último dato, atenuado */
+.clima.desactualizado {
+  opacity: 0.45;
+}

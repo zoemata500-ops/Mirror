@@ -1,0 +1,75 @@
+/* El temporizador usa las mismas tarjetas, pero más pequeñas */
+.temporizador {
+  --lado: min(15vw, 19vh);
+  --radio: calc(var(--lado) * 0.14);
+
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5vh;
+}
+
+.temporizador-tarjetas {
+  display: flex;
+  gap: 2vw;
+}
+
+/* Cuando el panel está abierto, el reloj principal se encoge y deja sitio abajo */
+body.temporizador-abierto {
+  --lado: min(30vw, 40vh);
+  --radio: calc(var(--lado) * 0.14);
+}
+
+body.temporizador-abierto .reloj {
+  height: 62%;
+}
+
+body.temporizador-abierto .temporizador {
+  height: 38%;
+  visibility: visible;
+}
+
+/* Botones: discretos, para no romper el diseño del espejo */
+.boton-flotante,
+.temporizador-controles button {
+  font-family: "DIN Alternate", "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 2.2vmin;
+  color: #b0b0b0;
+  background: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 1vmin;
+  padding: 0.8vmin 2vmin;
+  cursor: pointer;
+}
+
+.boton-flotante:hover,
+.temporizador-controles button:hover {
+  border-color: #b0b0b0;
+}
+
+.boton-flotante {
+  position: fixed;
+  right: 2vw;
+  bottom: 2vh;
+  z-index: 10;
+}
+
+.temporizador-controles {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
+.ajuste {
+  display: flex;
+  align-items: center;
+  gap: 1vmin;
+  color: #b0b0b0;
+  font-family: "DIN Alternate", "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 2.2vmin;
+}
