@@ -29,7 +29,9 @@ function tic() {
     intervalo = null;
     restante = 0;
     mostrar(0);
+    hablar('El temporizador terminó');
     botonIniciar.textContent = 'Iniciar';
+   
     return;
   }
 
@@ -59,8 +61,26 @@ function reiniciar() {
   mostrar(restante);
 }
 
+function abrirTemporizador() {
+  document.body.classList.add('temporizador-abierto');
+}
+
+function cerrarTemporizador() {
+  document.body.classList.remove('temporizador-abierto');
+}
+
+// Recibe segundos, los deja como nueva duración y reinicia la pantalla
+function ajustarDuracion(totalSegundos) {
+  duracion = Math.min(DURACION_MAXIMA, Math.max(0, totalSegundos)); // limita entre 0 y el máximo
+  reiniciar();   // reiniciar ya detiene el intervalo, recalcula "restante" y llama a mostrar
+}
+
 botonAbrir.addEventListener('click', () => {
-  document.body.classList.toggle('temporizador-abierto');
+  if (document.body.classList.contains('temporizador-abierto')) {
+    cerrarTemporizador();
+  } else {
+    abrirTemporizador();
+  }
 });
 
 botonIniciar.addEventListener('click', () => {
