@@ -1,3 +1,4 @@
+demo: https://zoemata500-ops.github.io/Mirror/
 # Espejo inteligente
 
 Interfaz para un espejo inteligente que muestra la hora, el clima, una lista de tareas y un temporizador, y que además se controla con la voz. Incluye a **Miko**, una mascota animada que asoma detrás del reloj y que, cuando le hablas, pasa al frente de la pantalla.
