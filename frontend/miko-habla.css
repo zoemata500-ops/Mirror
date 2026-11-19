@@ -1,0 +1,48 @@
+/* ===== BOCA DE MIKO AL HABLAR =====
+   miko.js cambia el atributo data-boca de .miko-boca; aquí está la forma de cada valor.
+   Va DESPUÉS de miko.css en el HTML: así estas reglas tienen la última palabra sobre la boca. */
+
+.miko-boca {
+  box-sizing: border-box;              /* width y height ya incluyen el borde: más fácil de calcular */
+  border-top: 0 solid transparent;     /* el borde de arriba existe pero mide 0: así se puede animar */
+  /* transición corta entre formas: la boca se siente viva sin verse lenta */
+  transition: width 0.08s ease, height 0.08s ease,
+              border-width 0.08s ease, border-color 0.08s ease, border-radius 0.08s ease;
+}
+
+/* Cerrada: la sonrisa de siempre */
+.miko-boca,
+.miko-boca[data-boca="cerrada"] {
+  width: 18.1cqw;
+  height: 8.1cqw;
+  border-width: 0 1.3cqw 1.6cqw 1.3cqw;
+  border-color: transparent transparent #f5f5f5 transparent;
+  border-radius: 0 0 7.7cqw 7.7cqw;
+}
+
+/* Media: un poco abierta (e, i) */
+.miko-boca[data-boca="media"] {
+  width: 17cqw;
+  height: 9.5cqw;
+  border-width: 1.6cqw;
+  border-color: #f5f5f5;
+  border-radius: 2cqw 2cqw 8cqw 8cqw;
+}
+
+/* Abierta: grande (a) */
+.miko-boca[data-boca="abierta"] {
+  width: 17cqw;
+  height: 15cqw;
+  border-width: 1.6cqw;
+  border-color: #f5f5f5;
+  border-radius: 3cqw 3cqw 9cqw 9cqw;
+}
+
+/* Redonda: la "o" y la "u" */
+.miko-boca[data-boca="redonda"] {
+  width: 10cqw;
+  height: 10cqw;
+  border-width: 1.6cqw;
+  border-color: #f5f5f5;
+  border-radius: 50%;
+}

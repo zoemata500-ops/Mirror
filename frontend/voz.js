@@ -33,11 +33,45 @@ function mostrarAviso(texto) {
   pendienteBorrarAviso = setTimeout(() => { aviso.textContent = ''; }, 5000); // se borra a los 5 s
 }
 
+let fraseActual = null;     // la ÚLTIMA frase pedida: solo ella puede mover la boca de Miko
+let respaldoBoca = null;    // temporizador de seguridad por si "onend" nunca llega
+
 function hablar(texto) {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();                       // calla cualquier lectura anterior
   const frase = new SpeechSynthesisUtterance(texto);
   frase.lang = IDIOMA;
+
+  // Trampa 1: cancel() hace que la frase ANTERIOR dispare onend/onerror un instante después de que
+  // empieza la nueva, y eso cerraría la boca a media frase. Por eso cada evento revisa
+  // si su frase sigue siendo la actual; si no, se ignora.
+  fraseActual = frase;
+  clearTimeout(respaldoBoca);
+
+  frase.onstart = () => {
+    if (frase !== fraseActual) return;
+    moverBoca(texto.split(' ')[0]);                      // arranca con la primera palabra
+  };
+
+  // onboundary avisa cada vez que empieza una palabra (no todas las voces lo hacen)
+  frase.onboundary = (evento) => {
+    if (frase !== fraseActual) return;
+    if (evento.name && evento.name !== 'word') return;   // solo palabras, no oraciones
+    moverBoca(texto.slice(evento.charIndex).split(/\s/)[0]);
+  };
+
+  frase.onend = frase.onerror = () => {
+    if (frase !== fraseActual) return;
+    clearTimeout(respaldoBoca);
+    cerrarBoca();
+  };
+
+  // Trampa 2: a veces el navegador nunca manda onend. Si pasa el tiempo estimado
+  // (1.5 s + 0.1 s por letra) y esta sigue siendo la frase actual, se cierra la boca a la fuerza.
+  respaldoBoca = setTimeout(() => {
+    if (frase === fraseActual) cerrarBoca();
+  }, 1500 + texto.length * 100);
+
   window.speechSynthesis.speak(frase);
 }
 
