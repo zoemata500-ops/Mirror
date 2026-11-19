@@ -1,4 +1,5 @@
 const IDIOMA = 'es-MX';   // idioma del reconocimiento y de la voz. Un solo idioma a la vez
+const NOMBRES = ['rico', 'memo', 'reico', 'pablo'];   // la palabra que activa a Miko por voz. Cámbiala aquí si hace falta
 const TECLA = 'F2';       // la tecla que manda tu botón físico. Cámbiala cuando lo tengas
 
 // Chrome lo expone con prefijo; el || usa el que exista
@@ -306,6 +307,14 @@ const DORMIR = ['descansa', 'duerme', 'apagate', 'desactivate'];
 
 // Arreglo de comandos. El orden importa: se usa el primero que coincida
 const comandos = [
+  // 0. Memo: va primero para que nada más se confunda con estas frases
+  { coincide: (t) => dijoAlguna(t, NOMBRES) && dijoAlguna(t, ['hablar', 'platicar', 'conversar']),
+    accion: () => { entrarModoMiko(); hablar('Aquí estoy. ¿Qué necesitas?'); } },
+
+  // Solo cuenta si Miko está al frente: "adiós", "regresa", "vuelve", "atrás", "salir"
+  { coincide: (t) => modoMiko && dijoAlguna(t, ['adios', 'regresa', 'vuelve', 'atras', 'salir']),
+    accion: () => { salirModoMiko(); hablar('Aquí estaré'); } },
+
   // 1. Agregar tarea va primero: así el texto de la tarea nunca se confunde con otro comando
   //    ("agrega la tarea cerrar la caja" no debe cerrar el panel)
   { coincide: (t) => dijoPalabra(t, AGREGAR) && /\btarea\b/.test(t),

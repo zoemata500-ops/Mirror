@@ -1,0 +1,177 @@
+/* ===== MIKO ===== */
+/* Todo el tamaño de Miko sale de UNA medida: el ancho de .miko-cuerpo (26vh).
+   Lo que está DENTRO usa "cqw" (1cqw = 1% de ese ancho), así Miko se escala completo si cambias ese ancho.
+   OJO: un contenedor no puede medirse a sí mismo con cqw. Por eso la forma vive en .miko-forma, un hijo. */
+
+/* --- El contenedor: posición, tamaño y movimiento --- */
+.miko-cuerpo {
+  position: fixed;
+  z-index: 1;                          /* detrás del reloj (que tiene z-index 2) */
+  left: 50%;
+  top: 6vh;                            /* altura a la que asoma por detrás de las tarjetas */
+  width: 26vh;
+  aspect-ratio: 310 / 440;
+  container-type: inline-size;         /* habilita las unidades cqw para sus hijos */
+  transform: translate(-50%, 0) scale(1);
+  transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.3s ease;
+  pointer-events: none;                /* no estorba los clics */
+}
+
+/* --- La cápsula: lo que se ve --- */
+.miko-forma {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50cqw 50cqw 19.4cqw 19.4cqw;
+  border: 0.65cqw solid #333;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.14) 0%, transparent 55%),
+    linear-gradient(180deg, #262626 0%, #141414 55%, #080808 100%);
+  box-shadow:
+    inset 0 5.8cqw 9cqw rgba(255, 255, 255, 0.12),
+    inset 5.2cqw 0 7.7cqw rgba(0, 0, 0, 0.75),
+    inset -5.2cqw 0 7.7cqw rgba(0, 0, 0, 0.75),
+    inset 0 -11.3cqw 12.9cqw rgba(0, 0, 0, 0.95),
+    0 6.5cqw 16cqw rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 37.1cqw;
+}
+
+/* Reflejo de la parte de arriba */
+.miko-forma::before {
+  content: "";
+  position: absolute;
+  top: 5.2cqw;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 61.3cqw;
+  height: 21cqw;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+}
+
+/* --- La cara --- */
+.miko-cara {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 66.1cqw;
+  animation: miko-flotar 4s ease-in-out infinite;
+}
+
+.miko-ojo {
+  width: 12.6cqw;
+  height: 22.6cqw;
+  background: #f5f5f5;
+  border-radius: 5.2cqw;
+  box-shadow: 0 0 4.5cqw rgba(255, 255, 255, 0.35);
+  animation: miko-parpadeo 4.5s infinite;
+}
+
+.miko-boca {
+  width: 15.5cqw;
+  height: 6.5cqw;
+  border-bottom: 1.6cqw solid #f5f5f5;
+  border-left: 1.3cqw solid transparent;
+  border-right: 1.3cqw solid transparent;
+  border-radius: 0 0 7.7cqw 7.7cqw;
+  margin-top: 7.1cqw;
+  filter: drop-shadow(0 0 2cqw rgba(255, 255, 255, 0.35));
+}
+
+/* --- Las manos: van DELANTE del reloj (z-index 3), como agarrándose del borde --- */
+.miko-mano {
+  position: fixed;
+  z-index: 3;
+  top: 21.5vh;
+  width: 5vh;
+  height: 5vh;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #3a3a3a 0%, #141414 60%, #080808 100%);
+  border: 1px solid #333;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+}
+.miko-mano-izq { left: calc(50% - 15.5vh); }
+.miko-mano-der { left: calc(50% + 10.5vh); }
+
+/* El reloj queda por encima de Miko */
+.reloj {
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Animaciones pequeñas, siempre activas --- */
+@keyframes miko-flotar {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-1.3cqw); }
+}
+@keyframes miko-parpadeo {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%           { transform: scaleY(0.06); }
+}
+
+/* ===== LO QUE SE VA HACIA ABAJO =====
+   Estos elementos tienen una transición: cuando el body gana "modo-miko" bajan,
+   y cuando la pierde suben solos. "translate" es independiente de "transform", así no choca con tu CSS. */
+.reloj,
+.clima,
+.boton-flotante,
+.temporizador,
+.tareas {
+  transition: translate 0.45s ease;
+}
+
+/* El clima ya tenía su transición de opacidad (clima.css): se conserva y se suma la nueva */
+.clima {
+  transition: opacity 0.4s, translate 0.45s ease;
+}
+
+/* ===== MIKO ESPERANDO: se esconde si hay un panel abierto =====
+   Con Tareas o Temporizador abiertos el reloj se encoge y se mueve, y Miko ya no quedaría pegado a él */
+body.tareas-abierto .miko-cuerpo,
+body.tareas-abierto .miko-mano,
+body.temporizador-abierto .miko-cuerpo,
+body.temporizador-abierto .miko-mano {
+  opacity: 0;
+}
+
+/* ===== MODO "HABLAR CON MIKO" ===== */
+
+/* Miko se acerca: sube al centro de la pantalla y crece al doble.
+   Va DESPUÉS de la regla de arriba: a igual fuerza, gana la última, y así Miko siempre se ve en este modo */
+body.modo-miko .miko-cuerpo {
+  top: 50%;
+  transform: translate(-50%, -50%) scale(2);
+  z-index: 5;
+  opacity: 1;
+}
+
+/* Las manos desaparecen */
+body.modo-miko .miko-mano {
+  opacity: 0;
+  transform: scale(0);
+}
+
+/* Todo lo demás baja y sale de la pantalla */
+body.modo-miko .reloj,
+body.modo-miko .clima,
+body.modo-miko .boton-flotante,
+body.modo-miko .temporizador,
+body.modo-miko .tareas {
+  translate: 0 130vh;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .miko-cuerpo,
+  .reloj,
+  .clima,
+  .boton-flotante,
+  .temporizador,
+  .tareas { transition-duration: 0.01s; }
+}

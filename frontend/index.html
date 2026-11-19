@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,10 +9,22 @@
   <link rel="stylesheet" href="tareas.css">
   <link rel="stylesheet" href="clima.css">
   <link rel="stylesheet" href="voz.css">
-  
+  <link rel="stylesheet" href="miko.css">
 </head>
-
 <body>
+
+  <!-- ===== MIKO (detrás del reloj) ===== -->
+  <div class="miko-cuerpo" aria-hidden="true">
+    <div class="miko-forma">
+      <div class="miko-cara">
+        <div class="miko-ojo"></div>
+        <div class="miko-boca"></div>
+        <div class="miko-ojo"></div>
+      </div>
+    </div>
+  </div>
+  <div class="miko-mano miko-mano-izq" aria-hidden="true"></div>
+  <div class="miko-mano miko-mano-der" aria-hidden="true"></div>
 
   <main class="reloj">
 
@@ -105,7 +116,7 @@
   <script src="temporizador.js"></script>
   <script src="tareas.js"></script>
   <script src="clima.js"></script>
+  <script src="miko.js"></script>
   <script src="voz.js"></script>
 </body>
-
 </html>
